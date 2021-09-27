@@ -105,6 +105,11 @@ func (a *demoRouter) PostDanmaku(c *gin.Context) {
 
 func (a *demoRouter) GetDanmakuList(c *gin.Context) {
 	//channelID := c.Param("id")
+	// TODO: 
+	// your works are:
+	// 1. query data from database
+	// 2. process data to type `[]danmakuResp`
+	// 3. return
 
 	data := danmakuResp{1, 2, 3, "author", "hello world"}
 
