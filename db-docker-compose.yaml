@@ -12,7 +12,6 @@ services:
     #command: "mysqld --init-file /data/application/init.sql"
     #volumes:
       #- ./init.sql:/data/application/init.sql
-      # hello
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
