@@ -1,9 +1,10 @@
 package main
 
 import (
+	"strconv"
+
 	"github.com/asim/go-micro/v3/registry"
 	"github.com/asim/go-micro/v3/server"
-	"strconv"
 
 	"github.com/asim/go-micro/v3"
 	log "github.com/asim/go-micro/v3/logger"
@@ -104,14 +105,18 @@ func (a *demoRouter) PostDanmaku(c *gin.Context) {
 }
 
 func (a *demoRouter) GetDanmakuList(c *gin.Context) {
-	//channelID := c.Param("id")
-	// TODO: 
+channelID, err := strconv.ParseUint(c.Param("id"), 10, 0)
+	// TODO:
 	// your works are:
 	// 1. query data from database
 	// 2. process data to type `[]danmakuResp`
 	// 3. return
+	if err != nil {
+		c.JSON(501, gin.H{"code": 1, "msg": "Failed When Parse Channnel ID."})
+		return
+	}
+	dmk := a.dbConnector.GetDanmakuListByChannel(channelID)
+	data := danmakuResp{dmk}
 
-	data := danmakuResp{1, 2, 3, "author", "hello world"}
-
-	c.JSON(200, gin.H{"msg": data})
+	c.JSON(200, gin.H{"code": 0, "data": data})
 }
