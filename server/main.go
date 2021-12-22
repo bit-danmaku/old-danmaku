@@ -10,6 +10,7 @@ import (
 	log "github.com/asim/go-micro/v3/logger"
 
 	httpServer "github.com/asim/go-micro/plugins/server/http/v3"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -78,6 +79,9 @@ func newDemo(dbc *DBConnector) *demoRouter {
 }
 
 func (a *demoRouter) InitRouter(router *gin.Engine) {
+	router.Use(cors.Default())
+	router.Use(gin.Recovery())
+
 	router.POST("/channel/:id/v3/", a.PostDanmaku)
 	router.GET("/channel/:id/v3/", a.GetDanmakuList)
 }
@@ -116,7 +120,14 @@ channelID, err := strconv.ParseUint(c.Param("id"), 10, 0)
 		return
 	}
 	dmk := a.dbConnector.GetDanmakuListByChannel(channelID)
-	data := danmakuResp{dmk}
+
+	danmakuList := make([]danmakuResp, 0)
+	
+	for _, v := range dmk {
+		danmakuList = append(danmakuList, danmakuResp{v.Time, v.Type, v.Color, v.Author, v.Text})
+	}
+
+	data := danmakuList 
 
 	c.JSON(200, gin.H{"code": 0, "data": data})
 }

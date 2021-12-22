@@ -24,7 +24,7 @@ type Danmaku struct {
 }
 
 func InitDB() *DBConnector {
-	dsn := "root:qwerty@tcp(db.danmaku.fkynjyq.com:3306)/olddanmaku?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:qwerty@tcp(mariadb:3306)/olddanmaku?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
