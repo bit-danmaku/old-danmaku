@@ -78,8 +78,8 @@ func newDemo(dbc *DBConnector) *demoRouter {
 }
 
 func (a *demoRouter) InitRouter(router *gin.Engine) {
-	router.POST("/channel/:id", a.PostDanmaku)
-	router.GET("/channel/:id", a.GetDanmakuList)
+	router.POST("/channel/:id/v3/", a.PostDanmaku)
+	router.GET("/channel/:id/v3/", a.GetDanmakuList)
 }
 
 func (a *demoRouter) PostDanmaku(c *gin.Context) {
